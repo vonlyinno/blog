@@ -33,14 +33,13 @@ $ npm install --save-dev @types/passport-jwt
 ### code
 按照上面的认证步骤：
 1. 用户注册，这里只简单写了controller，具体的新用户、用户名校验等可以后面通过class-validator校验。
-```
+```js
 // users.controller.ts
-
 @Post('/register')
-  async register (@Body() user:User) {
-    // TODO: 校验
-    return await this.usersService.create(user)
-  }
+async register (@Body() user:User) {
+  // TODO: 校验
+  return await this.usersService.create(user)
+}
 ```
 
 2. 添加login路由
@@ -56,7 +55,7 @@ async login(@Body() user:Pick<User, 'username'|'password'>) {
 auth的service主要完成2个方法：
 (1). local策略时对password的验证
 (2). local策略 登录后下发token
-```ts
+```js
 @Injectable()
 export class AuthService {
   constructor(
@@ -79,7 +78,7 @@ export class AuthService {
 
 4. 实现认证策略
 4.1 local
-```ts
+```js
 // local.strategy.ts
 import { Injectable, UnauthorizedException } from '@nestjs/common'
 import { PassportStrategy } from '@nestjs/passport'
@@ -105,7 +104,7 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
 ```
 
 4.2 jwt
-```ts
+```js
 // jwt.strategy.ts
 import { Injectable } from '@nestjs/common'
 import { PassportStrategy } from '@nestjs/passport'
@@ -130,7 +129,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 ```
 
 5. 注册passport的策略
-```ts
+```js
 // auth.module.ts
 import { Module } from '@nestjs/common';
 import { AuthService } from './auth.service';
@@ -162,7 +161,7 @@ export class AuthModule {}
 可以使用@nestjs/passport的内置的Guard
 
 当未经身份验证的用户尝试登录时
-```ts
+```js
 // auth.controller.ts
 // 这里使用的就是内置Guard, 指明用哪种策略
 @UseGuards(AuthGuard('local'))
@@ -177,7 +176,7 @@ async login(@Body() user:Pick<User, 'username'|'password'>) {
 ## api验证
 使用了@nest/swagger作为api的一个doc，也可以很方便的进行api测试。
 对于需要jwt的api，在main.ts入口文件处，添加addBearerAuth，就可以输入登录后下发的token了。
-```ts
+```js
 new DocumentBuilder().addBearerAuth()
 ```
 并在控制器路由前使用```ApiBearerAuth()```装饰器。
