@@ -9,3 +9,7 @@
 - 基础知识
   - Javascript
     - [Promise](/javascript/code/promise.md)
+  - 性能
+    - [前端性能指标笔记](/javascript/performance/前端性能指标.md)
+  - 基础
+    -  [H5与APP通信机制](/javascript/base/H5与APP通信机制.md)
